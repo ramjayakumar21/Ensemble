@@ -1,0 +1,12 @@
+.review {
+    border-radius: 30px;
+    padding: 30px;
+    margin-top: 10px;
+    width: fit-content;
+    border: 2px solid white;
+}
+
+h1,
+h2 {
+    margin: 0px;
+}
