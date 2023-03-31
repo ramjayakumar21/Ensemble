@@ -1,20 +1,20 @@
 import { useState, useEffect } from 'react'
 import ReactDOM from "react-dom/client";
 import axios from "axios"
-import Review from '../components/Review';
+import ReviewWidget from '../components/ReviewWidget';
 
 export default function MyReviews() {
-    const [data, changeData] = useState<any>([])
+    const [reviewList, changeReviewList] = useState<any>([])
 
     useEffect(() => {
-        getData()
+        getAllReviews()
     }, [])
 
-    const getData = () => {
+    const getAllReviews = () => {
         axios.get("http://localhost:8010/reviews/all")
         .then((res : any) => {
             console.log(res.data)
-            changeData(res.data)
+            changeReviewList(res.data)
         })
         .catch((err) => {
             console.error(err)
@@ -23,10 +23,11 @@ export default function MyReviews() {
 
     return (
         <div className='home'>
-            {(data.length == 0) ? <h1>Loading...</h1> : data.map((elem : any) => {
-                return <Review reviewData={elem} key={elem._id}/>
-            })
-            }
+            {(reviewList.length == 0) ? <h1>Loading...</h1> : reviewList.map((elem : any) => {
+                return <ReviewWidget reviewData={elem} key={elem._id}/>
+            })}
+
+            review
         </div>
     )
 }
