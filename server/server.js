@@ -13,6 +13,7 @@ app.use(cors())
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({limit: "10mb", extended: true}))
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 
 const indexRouter = require("./routes/index")
 const artistsRouter = require("./routes/artists")

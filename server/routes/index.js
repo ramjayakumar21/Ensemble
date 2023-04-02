@@ -1,77 +1,121 @@
-const express = require("express")
-const querystring = require('node:querystring');
-const { createHash } = require('crypto');
-const bodyParser = require("body-parser");
-const crypto = require('crypto');
+const express = require("express");
+const querystring = require("node:querystring");
+const crypto = require("crypto");
+const sha256 = require('sha256');
+const store = require("store");
+const axios = require("axios")
 
-const router = express.Router()
+const router = express.Router();
 
 
-let redirect_uri = "http://localhost:8010/success-login"
+let redirect_uri = "http://localhost:8010/success-login";
 
-router.get('/login/:randomstr', async (req, res) => {
-    const params = req.params
-    console.log(params)
-    let codeVerifier = req.params.randomstr
+router.get("/login", async (req, res) => {
+  let codeVerifier = generateRandomString(128);
+  let codeChallenge = await generateCodeChallenge(codeVerifier);
 
-    let codeChallenge = await generateCodeChallenge(codeVerifier)
+  let state = generateRandomString(16);
+  let scope =
+    "user-read-private user-read-email app-remote-control user-read-playback-position";
 
-    let state = generateRandomString(16);
-    let scope = 'user-read-private user-read-email app-remote-control';
-    
-  
-    res.redirect('https://accounts.spotify.com/authorize?' +
+  store.set("code-verifier", codeVerifier);
+
+  res.redirect(
+    "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
-        response_type: 'code',
+        response_type: "code",
         client_id: process.env.CLIENT_ID,
         scope: scope,
         redirect_uri: redirect_uri,
         state: state,
-        code_challenge_method: 'S256',
-        code_challenge: codeChallenge
-      }));
+        code_challenge_method: "S256",
+        code_challenge: codeChallenge,
+      })
+  );
+});
 
+router.get("/success-login", async (req, res) => {
+  let code = null
+  try {
+    code = req.query.code
+  } catch {
+    res.send("Failed to get code")
+  } 
+
+  if (code == null) res.sendStatus(504)
+
+  let codeVerifier = store.get("code-verifier");  
+
+  let body = new URLSearchParams({
+    grant_type: "authorization_code",
+    code: code,
+    redirect_uri: redirect_uri,
+    client_id: process.env.CLIENT_ID,
+    code_verifier: codeVerifier,
+  });
+
+  axios.post('https://accounts.spotify.com/api/token', body, {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    }
+  })
+    .then(response => {
+      if (response.status != 200) {
+        throw new Error('HTTP status ' + response.status);
+      }
+      return response.data;
+    })
+    .then(data => {
+      store.set('access_token', data.access_token);
+      res.redirect('../get-profile')
+    })
+    .catch(error => {
+       console.error('Error:', error);
+    });
+
+});
+
+router.get("/get-profile", async (req, res) => {
+  let accessToken = store.get('access_token');
+  
+    const response = await axios.get('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: 'Bearer ' + accessToken
+      }
+    });
+  
+    let data = await response.data;
+    res.send(data)
 })
 
-
-router.get('/login', async (req, res) => {
-
-  const params = req.params
-  res.send(params)
-})
-
-
-router.get('/success-login', (req, res) => {
-    res.send(req.params)
-
-})
-
-router.get('/', (req, res) => {
-    res.render('index') 
-})
+router.get("/", (req, res) => {
+  res.render("index");
+});
 
 function generateRandomString(length) {
-  let text = '';
-  let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let text = "";
+  let possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
   for (let i = 0; i < length; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 }
+const generateCodeChallenge = async (codeVerifier) => {
+  const base64encode = (str) => {
+    const buffer = Buffer.from(str, 'binary');
+    return buffer.toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=+$/, '');
+  };
 
+  const data = Buffer.from(codeVerifier, 'binary');
+  const digest = await crypto.createHash('sha256').update(data).digest('binary');
+  const codeChallenge = base64encode(digest);
 
-async function generateCodeChallenge() {
-  function base64encode(string) {
-    return Buffer.from(string).toString('base64');
-  }
-
-  const encoder = new TextEncoder();
-  const data = encoder.encode(codeVerifier);
-  const digest = await crypto.createHash('sha256').update(data).digest('hex');
-  console.log(digest)
-
-  return base64encode(digest);
+  return codeChallenge;
 }
 
-module.exports = router
+module.exports = router;
