@@ -32,6 +32,8 @@ router.get("/login", async (req, res) => {
         code_challenge: codeChallenge,
       })
   );
+
+  
 });
 
 router.get("/success-login", async (req, res) => {
@@ -44,7 +46,7 @@ router.get("/success-login", async (req, res) => {
 
   if (code == null) res.sendStatus(504)
 
-  let codeVerifier = store.get("code-verifier");  
+  codeVerifier = store.get("code-verifier");  
 
   let body = new URLSearchParams({
     grant_type: "authorization_code",
@@ -67,13 +69,25 @@ router.get("/success-login", async (req, res) => {
     })
     .then(data => {
       store.set('access_token', data.access_token);
-      res.redirect('../get-profile')
+      res.redirect('http://localhost:5173/account')
     })
     .catch(error => {
        console.error('Error:', error);
     });
+  
 
 });
+
+router.get('/get-access-token', (req, res) => {
+    let result = store.get("access_token")
+    if (result == null) {
+        res.json({error: "Not allowed to get code!"})
+    } else {
+        store.set('access_token', null);
+        res.json({Authorization: result})
+    }
+
+})
 
 router.get("/get-profile", async (req, res) => {
   let accessToken = store.get('access_token');

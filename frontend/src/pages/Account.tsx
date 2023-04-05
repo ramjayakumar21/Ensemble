@@ -1,7 +1,25 @@
 import axios from "axios"
+import { useState, useEffect } from 'react'
 import "./Account.css"
 
 export default function Account() {
+
+    useEffect(() => {
+        getAuthorizationCode()
+    }, [])
+
+    const getAuthorizationCode = () => {
+        axios.get("http://localhost:8010/get-access-token")
+        .then((res : any) => {
+            // console.log(res.data)
+            if ("error" in res.data){
+                console.log('hasnt signed in')
+            } else {
+                localStorage.setItem("Authorization", res.data.Authorization)
+            }
+            
+        })
+    }
 
 
     return (

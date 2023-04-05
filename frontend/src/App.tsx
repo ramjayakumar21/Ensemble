@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Account from './pages/Account';
 import MyReviews from './pages/MyReviews';
 import ReviewPage from './pages/ReviewPage';
+import NewReview from './pages/NewReview';
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
           <Route path="/my-reviews" element={<MyReviews />}/>
           <Route path="/account" element={<Account />}/>
           <Route path="/review/:id" element={<ReviewPage />}/>
+          <Route path="/new-review" element={<NewReview />}/>
         </Routes>
       </div>
     </div>
