@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Account from './pages/Account';
 import MyReviews from './pages/MyReviews';
 import ReviewPage from './pages/ReviewPage';
-import NewReview from './pages/NewReview';
+import { NewReview } from './pages/NewReview';
 
 function App() {
 

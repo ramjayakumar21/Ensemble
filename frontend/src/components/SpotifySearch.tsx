@@ -1,7 +1,13 @@
 import { Input, List, Avatar, Card } from 'antd';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ReviewContext, ReviewContextUpdater } from "../pages/NewReview"
 
-export default function SpotifySearch() {
+export default function SpotifySearch(props : any) {
+    console.log(props)
+
+    let states : any = useContext(ReviewContext) 
+    let reviewData = states.reviewData
+    let setReviewData = states.setReviewData
 
     const [searchList, setSearchList] = useState([])
 
@@ -35,12 +41,16 @@ export default function SpotifySearch() {
             console.log(res)
 
             searchResults.forEach((album : any) => {
+                console.log(album)
                 results.push(      
-                    <List.Item key={album.uri}>
+                    <List.Item key={album.uri} onClick={() => {
+                        setReviewData(album)
+                        console.log("review data !!! ", setReviewData)
+                    }}>
                       <List.Item.Meta
                         avatar={<Avatar shape='square' size='large' src={album.images[0].url} />}
                         title={album.name}
-                        description={album.artists.join(', ')}
+                        description={album.artists[0].name}
                       />
                     </List.Item>);
             });
@@ -58,7 +68,7 @@ export default function SpotifySearch() {
 
 
     return (
-      <div>
+      <div style={{display: (props.hidden) ? "none" : "block"}}>
         <Input
           onChange={(value) => {
             searchAlbums(value.target.value);

@@ -26,7 +26,6 @@ router.get('/new', async (req, res) => {
 })
 
 router.get('/all', async (req, res) => {
-    console.log('all request')
     try {
         let output = await Review.find()
         return res.send(output)
