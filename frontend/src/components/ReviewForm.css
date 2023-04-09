@@ -1,7 +1,17 @@
 .review-form {
-    background-color: rgb(96, 96, 97);
+    /* background-color: rgb(145, 145, 150); */
+    display: flex;
+    background-color: rgb(240, 122, 122);
 }
 
 .hidden {
     display: none;
+}
+
+.album-details {
+    margin: 10px;
+}
+
+.album-icon {
+    width: 20%;
 }

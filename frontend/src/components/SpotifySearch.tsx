@@ -1,6 +1,7 @@
 import { Input, List, Avatar, Card } from 'antd';
 import { useState, useContext } from 'react';
 import { ReviewContext, ReviewContextUpdater } from "../pages/NewReview"
+import "./SpotifySearch.css"
 
 export default function SpotifySearch(props : any) {
     console.log(props)
@@ -31,9 +32,9 @@ export default function SpotifySearch(props : any) {
         })
         .then(response => {
             if(!response.ok){
-                throw Error("Response Not Ok")
+              throw Error("Response Not Ok")
             }
-            return response.json();
+              return response.json();
             })
         .then((res) => {
             let results : any = []
@@ -68,17 +69,19 @@ export default function SpotifySearch(props : any) {
 
 
     return (
-      <div style={{display: (props.hidden) ? "none" : "block"}}>
-        <Input
-          onChange={(value) => {
-            searchAlbums(value.target.value);
-          }}
-        ></Input>
-        {searchList.length == 0 ? null : (
-          <Card>
-            <List itemLayout="horizontal">{searchList}</List>
-          </Card>
-        )}
+      <div className="spotify-search">
+          <div style={{display: (props.hidden) ? "none" : "block"}}>
+            <Input
+              onChange={(value) => {
+                searchAlbums(value.target.value);
+              }}
+            ></Input>
+            {searchList.length == 0 ? null : (
+              <Card>
+                <List itemLayout="horizontal">{searchList}</List>
+              </Card>
+            )}
+          </div>
       </div>
     );
 }

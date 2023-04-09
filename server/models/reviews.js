@@ -16,7 +16,11 @@ const reviewSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
-    }
+    }, 
+    content: {
+        type: Number,
+        required: true,
+    }, 
 })
 
 module.exports = mongoose.model('Review', reviewSchema)

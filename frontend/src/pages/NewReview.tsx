@@ -28,8 +28,11 @@ export function NewReview() {
     return (
             <ReviewContext.Provider value={states}>
                 <div>
-                    <SpotifySearch hidden={spotifySearchHidden}/>
-                    {reviewData.name}
+                    <div className="page-1">
+                        <SpotifySearch hidden={spotifySearchHidden}/>
+                        {reviewData.name}
+                    </div>
+
                     <Button variant="contained" 
                         disabled={(reviewData.name == "") ? true : false} 
                         onClick={() => {
@@ -37,7 +40,7 @@ export function NewReview() {
                         }}>
                             Next
                     </Button>
-                    <ReviewForm hidden={spotifySearchHidden}/>
+                    <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData}/>
                 </div>
             </ReviewContext.Provider>
     )

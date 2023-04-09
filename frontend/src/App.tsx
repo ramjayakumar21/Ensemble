@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import ReactDOM from "react-dom/client";
 import { Routes, Route, Link } from "react-router-dom";
+import PersonIcon from '@mui/icons-material/Person';
 import reactLogo from './assets/react.svg'
 import './App.css'
 import Home from './pages/Home';
@@ -17,10 +18,12 @@ function App() {
         <div className="menu">
           <h1 className="menu--title">Ensemble</h1>
           <ul className='menu--buttons'>
-            <li><Link to={"/"}>HOME</Link></li>
-            <li><Link to={"my-reviews"}>MY REVIEWS</Link></li>
-            <li><Link to={"account"}>ACCOUNT</Link></li>
+            <Link to={"/"}><li>HOME</li></Link>
+            <Link to={"my-reviews"}><li>MY REVIEWS</li></Link>
           </ul>
+          <div className="account-icon">
+            <Link to={"account"}><PersonIcon /></Link>
+          </div>
         </div>
         <Routes>
           <Route path="/" element={<Home />}/>
