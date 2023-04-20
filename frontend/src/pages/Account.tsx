@@ -33,7 +33,8 @@ export default function Account() {
                         album: 'MBTDF3',
                         artist: "Kanye1",
                         rating: 102,
-                        id: 427,
+                        id: 18,
+                        content: "this is the content"
                     }
                 })
                 console.log(result)

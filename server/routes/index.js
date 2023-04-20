@@ -16,7 +16,7 @@ router.get("/login", async (req, res) => {
 
   let state = generateRandomString(16);
   let scope =
-    "user-read-private user-read-email app-remote-control user-read-playback-position";
+    "user-top-read user-read-playback-position";
 
   store.set("code-verifier", codeVerifier);
 

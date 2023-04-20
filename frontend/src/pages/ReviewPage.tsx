@@ -29,7 +29,7 @@ export default function ReviewPage() {
 
     return (
         <div>
-            Practice {review.id}
+            {JSON.stringify(review)}
         </div>
     )
 }

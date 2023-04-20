@@ -4,7 +4,6 @@ import { ReviewContext, ReviewContextUpdater } from "../pages/NewReview"
 import "./SpotifySearch.css"
 
 export default function SpotifySearch(props : any) {
-    console.log(props)
 
     let states : any = useContext(ReviewContext) 
     let reviewData = states.reviewData

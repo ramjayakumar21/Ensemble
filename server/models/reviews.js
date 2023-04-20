@@ -18,9 +18,13 @@ const reviewSchema = new mongoose.Schema({
         required: true,
     }, 
     content: {
-        type: Number,
+        type: String,
         required: true,
     }, 
+    spotifyHref: {
+        type: String,
+        required: true
+    }
 })
 
 module.exports = mongoose.model('Review', reviewSchema)

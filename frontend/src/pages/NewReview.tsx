@@ -21,6 +21,14 @@ export function NewReview() {
                 reviewData, setReviewData, 
                 spotifySearchHidden, setSpotifySearchHidden
             }
+
+    let content = null
+
+    if (reviewData.name !== "") {
+        console.log(reviewData)
+        console.log('REview data not undefined')
+        content = <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData}/>
+    }
     
 
     
@@ -28,19 +36,35 @@ export function NewReview() {
     return (
             <ReviewContext.Provider value={states}>
                 <div>
-                    <div className="page-1">
+                    <div className={`page-1 ${(spotifySearchHidden) ? "hidden" : ""}`}>
                         <SpotifySearch hidden={spotifySearchHidden}/>
                         {reviewData.name}
-                    </div>
-
-                    <Button variant="contained" 
+                        <Button variant="contained" 
                         disabled={(reviewData.name == "") ? true : false} 
                         onClick={() => {
                         setSpotifySearchHidden(true)
+                        setReviewData(reviewData)
                         }}>
                             Next
-                    </Button>
-                    <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData}/>
+                        </Button>
+                    </div>
+
+                    <div className={`page-2 ${(!spotifySearchHidden) ? "hidden" : ""}`}>
+                        <Button variant="contained" 
+                        disabled={(reviewData.name == "") ? true : false} 
+                        onClick={() => {
+                        setSpotifySearchHidden(false)
+                        }}>
+                            Back
+                        </Button>
+                        {
+                         content
+                        } 
+                        
+                    </div>
+
+                    
+                    
                 </div>
             </ReviewContext.Provider>
     )
