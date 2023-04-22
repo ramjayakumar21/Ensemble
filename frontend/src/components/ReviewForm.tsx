@@ -6,42 +6,98 @@ import { Avatar, Button, Input, Rating, Card, TextField, ButtonBase } from "@mui
 import { FastAverageColor } from "fast-average-color"
 import "./ReviewForm.css"
 import { color } from "@mui/system";
+import { redirect } from "react-router-dom";
+import grad from "gradient-from-image";
 
 
 export default function ReviewForm(props : any) {
+    
     const [rating, changeRating] = useState(0)
     const [reviewContent, changeReviewContent] = useState("default content")
+    const [topTracks, setTopTracks] = useState([])
 
     let reviewData = props.reviewData
     let accessToken = localStorage.getItem("Authorization")
-    console.log("album data", props)
-    
-    console.log(reviewData.artists)
-   
-    // const fac = new FastAverageColor()
-    // fac.getColorAsync((albumData.images[0].url))
-    //     .then((color) => {
-    //         let bg : any = document.getElementsByClassName("review-form")[0]
-    //         // bg.style.backgroundColor = color.rgb
-    //         // console.log(bg.style)
-    //     })
-    //     .catch((err) => {console.log(err)})
 
-    fetch(`https://api.spotify.com/v1/albums/${reviewData.id}/tracks`, {
-        method: "GET",
-        headers: {
-              Authorization: `Bearer ${accessToken}`     
-        }
-    })
-    .then(response => {
-        if(!response.ok){
-          throw Error("Response Not Ok")
-        }
-          return response.json();
+    console.log("album data", props)
+    console.log(reviewData.artists)
+
+    useEffect(() => {
+        initPage()
+        
+
+    }, []) 
+
+    
+   
+ 
+    function initPage() {
+
+        console.log(reviewData.images[0].url)
+        grad.gr(reviewData.images[0].url).then((gradient : any) =>{
+            // this will gives you array of gradients
+            //change this is to element css el.background="` linear-gradient(${gradient})`"
+            console.log(gradient);
+        });
+
+        
+        
+        axios.get(`https://api.spotify.com/v1/me/top/tracks`, {
+            headers: {
+                  Authorization: `Bearer ${accessToken}`     
+            },
+            data: {
+                time_range: "medium_term",
+                limit: 50,
+            }
         })
-    .then((res) => {
-        console.log("res", res)
-    })
+        .then(response => {
+            if(response.status != 200){
+              throw Error("Response Not Ok")
+            }
+              return response.data;
+            })
+        .then((res) => {
+            console.log("user top tracks", res)
+            let album_tracks = filterTracks(res.items, reviewData.id)
+            console.log("tracks:", album_tracks)
+            setTopTracks(album_tracks)
+            let mins = getListenMinutes(album_tracks, reviewData.id)
+            console.log("mins", mins)
+        })
+
+        
+        
+    }
+
+    /**
+     * Filters users top tracks for songs from album in reviewData
+     */
+    function filterTracks(tracks : object[], albumID : string): any {
+        let filtered_tracks : object[] = tracks.filter((track : any) => {
+            let trackAlbumID: string = track.album.id;
+            return trackAlbumID == albumID;
+        })
+        
+        
+        return filtered_tracks
+
+    }
+
+    /**
+     * Calculates total minutes listened in given track list of album
+     */
+    function getListenMinutes(tracks : object[], albumID : string): any {
+        let total_mins : any = tracks.reduce((minSoFar, track : any) => {
+            return (Math.round(track.duration_ms / 60000)) + minSoFar
+        }, 0)
+        
+        console.log("fil", total_mins)
+        return total_mins
+
+    }
+
+   
 
     async function sendReview() {
         let artists = reviewData.artists.map((artist : any) => {return artist.name})
@@ -58,10 +114,13 @@ export default function ReviewForm(props : any) {
             data: body
         })
         console.log(result)
+
+        redirect("/my-reviews")
     }
     
     
-    let component = (
+    
+    return (
         <div className={`review-form ${(!props.hidden) ? "hidden" : ""}`}>
             <div className="album-details">
                 <img className="album-icon" alt={reviewData.name} src={reviewData.images[0].url} />
@@ -90,9 +149,9 @@ export default function ReviewForm(props : any) {
                 />
             </div>
             <Button variant="contained" onClick={() => {sendReview()}}>Save</Button>
+            <div>Favourite Track: </div>
+            <div>Total Minutes Spent: </div>
         </div>
     )
     
-
-    return component
 }

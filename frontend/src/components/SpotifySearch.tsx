@@ -38,10 +38,10 @@ export default function SpotifySearch(props : any) {
         .then((res) => {
             let results : any = []
             let searchResults = res.albums.items
-            console.log(res)
+            
 
             searchResults.forEach((album : any) => {
-                console.log(album)
+                
                 results.push(      
                     <List.Item key={album.uri} onClick={() => {
                         setReviewData(album)
@@ -56,7 +56,7 @@ export default function SpotifySearch(props : any) {
             });
 
             setSearchList(results)
-            console.log(res)
+            
         
         })
         .catch((err) => {console.error(err)})
