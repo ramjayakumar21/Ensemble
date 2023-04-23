@@ -45,7 +45,6 @@ export default function SpotifySearch(props : any) {
                 results.push(      
                     <List.Item key={album.uri} onClick={() => {
                         setReviewData(album)
-                        console.log("review data !!! ", setReviewData)
                     }}>
                       <List.Item.Meta
                         avatar={<Avatar shape='square' size='large' src={album.images[0].url} />}

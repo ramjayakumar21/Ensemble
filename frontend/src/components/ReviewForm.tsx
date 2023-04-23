@@ -6,39 +6,42 @@ import { Avatar, Button, Input, Rating, Card, TextField, ButtonBase } from "@mui
 import { FastAverageColor } from "fast-average-color"
 import "./ReviewForm.css"
 import { color } from "@mui/system";
-import { redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import grad from "gradient-from-image";
 
 
 export default function ReviewForm(props : any) {
-    
-    const [rating, changeRating] = useState(0)
-    const [reviewContent, changeReviewContent] = useState("default content")
+
+    if (Object.keys(props.userData).length == 0){
+        props.userData.rating = 0
+        props.userData.reviewContent = ""
+    }
+
+    console.log("Review form props", props)
+
+    const [reviewData, setReviewData] = useState<any>({...props.reviewData})
+    const [rating, changeRating] = useState(props.userData.rating)
+    const [reviewContent, changeReviewContent] = useState(props.userData.reviewContent)
     const [topTracks, setTopTracks] = useState([])
 
-    let reviewData = props.reviewData
     let accessToken = localStorage.getItem("Authorization")
-
-    console.log("album data", props)
-    console.log(reviewData.artists)
 
     useEffect(() => {
         initPage()
         
 
-    }, []) 
+    }, [])
 
     
    
  
     function initPage() {
-
-        console.log(reviewData.images[0].url)
-        grad.gr(reviewData.images[0].url).then((gradient : any) =>{
-            // this will gives you array of gradients
-            //change this is to element css el.background="` linear-gradient(${gradient})`"
-            console.log(gradient);
-        });
+        // IMPLEMENT GRADIENT !!!
+        // grad.gr(reviewData.images[0].url).then((gradient : any) =>{
+        //     // this will gives you array of gradients
+        //     //change this is to element css el.background="` linear-gradient(${gradient})`"
+        //     console.log(gradient);
+        // });
 
         
         
@@ -114,16 +117,21 @@ export default function ReviewForm(props : any) {
             data: body
         })
         console.log(result)
+        console.log("redirect")
 
-        redirect("/my-reviews")
+
+        return <Navigate replace to="/my-reviews"></Navigate>
     }
     
+
+    console.log("Review Data", reviewData)
+    console.log("User Data", props.userData)
     
     
     return (
         <div className={`review-form ${(!props.hidden) ? "hidden" : ""}`}>
             <div className="album-details">
-                <img className="album-icon" alt={reviewData.name} src={reviewData.images[0].url} />
+                <img className="album-icon" style={{width: "45vh"}} alt={reviewData.name} src={reviewData.images[0].url} />
                 <h1>{reviewData.name}</h1>
             </div>
             <div>
@@ -143,7 +151,7 @@ export default function ReviewForm(props : any) {
                     label="Review Comments"
                     multiline
                     rows={6}
-                    defaultValue=""
+                    defaultValue={reviewContent}
                     variant="filled"
                     onChange={(event) => changeReviewContent(event.target.value)}
                 />

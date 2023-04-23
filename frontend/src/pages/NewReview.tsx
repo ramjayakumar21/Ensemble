@@ -16,6 +16,7 @@ export function NewReview() {
         images: [""]
     })
     const [spotifySearchHidden, setSpotifySearchHidden] = useState(false)
+    const [submitReview, setSubmitReview] = useState(false)
 
     let states = {
                 reviewData, setReviewData, 
@@ -25,9 +26,7 @@ export function NewReview() {
     let content = null
 
     if (reviewData.name !== "") {
-        console.log(reviewData)
-        console.log('REview data not undefined')
-        content = <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData}/>
+        content = <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData} submitReview={submitReview} userData={{}}/>
     }
     
 
@@ -60,6 +59,14 @@ export function NewReview() {
                         {
                          content
                         } 
+                        <Button variant="contained" 
+                        disabled={(reviewData.name == "") ? true : false} 
+                        onClick={() => {
+                            setSubmitReview(true)
+                            console.log(submitReview)
+                        }}>
+                            Next
+                        </Button>
                         
                     </div>
 

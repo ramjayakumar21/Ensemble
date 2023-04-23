@@ -10,3 +10,11 @@ h1,
 h2 {
     margin: 0px;
 }
+
+.review--album-title {
+    max-width: 100vh;
+    word-wrap: break-word;
+}
+
+
+
