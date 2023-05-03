@@ -3,7 +3,6 @@ import axios from "axios";
 import { ReviewContext } from "../pages/NewReview"
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { Avatar, Button, Input, Rating, Card, TextField, ButtonBase } from "@mui/material";
-import { FastAverageColor } from "fast-average-color"
 import "./ReviewForm.css"
 import { color } from "@mui/system";
 import { Navigate } from "react-router-dom";
@@ -11,11 +10,6 @@ import grad from "gradient-from-image";
 
 
 export default function ReviewForm(props : any) {
-
-    if (Object.keys(props.userData).length == 0){
-        props.userData.rating = 0
-        props.userData.reviewContent = ""
-    }
 
     console.log("Review form props", props)
 
@@ -27,6 +21,12 @@ export default function ReviewForm(props : any) {
     let accessToken = localStorage.getItem("Authorization")
 
     useEffect(() => {
+        /* Making a completely new review*/
+        if (Object.keys(props.userData).length == 0){
+            props.userData.rating = 0
+            props.userData.reviewContent = ""
+
+        }
         initPage()
         
 
@@ -113,9 +113,17 @@ export default function ReviewForm(props : any) {
             spotifyHref: reviewData.href
         }
 
-        let result = await axios.post("http://localhost:8010/reviews/new", {
-            data: body
-        })
+        let result = null;
+
+        if (!props.isPOST) {
+            result = await axios.put("http://localhost:8010/reviews/new", {
+                data: {...body, id: props.userData.id}
+            })
+        } else {
+            result = await axios.post("http://localhost:8010/reviews/new", {
+                data: body
+            })
+        }
         console.log(result)
         console.log("redirect")
 
@@ -135,6 +143,7 @@ export default function ReviewForm(props : any) {
                 <h1>{reviewData.name}</h1>
             </div>
             <div>
+                
                 <Rating
                     name="simple-controlled"
                     value={rating}
@@ -150,6 +159,7 @@ export default function ReviewForm(props : any) {
                     id="filled-multiline-static"
                     label="Review Comments"
                     multiline
+                    fullWidth
                     rows={6}
                     defaultValue={reviewContent}
                     variant="filled"

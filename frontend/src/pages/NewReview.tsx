@@ -26,7 +26,7 @@ export function NewReview() {
     let content = null
 
     if (reviewData.name !== "") {
-        content = <ReviewForm hidden={spotifySearchHidden} reviewData={reviewData} submitReview={submitReview} userData={{}}/>
+        content = <ReviewForm isPOST={true} hidden={spotifySearchHidden} reviewData={reviewData} submitReview={submitReview} userData={{}}/>
     }
     
 

@@ -22,7 +22,8 @@ export default function ReviewPage() {
             console.log("data", res.data)
             let users_data = {
                 rating: res.data.rating,
-                reviewContent: res.data.content
+                reviewContent: res.data.content,
+                id: params.id
             }
 
             axios.get(res.data.spotifyHref)
@@ -49,7 +50,7 @@ export default function ReviewPage() {
     return (
         <div>
             {(reviewData.name == undefined) ? null :
-            <ReviewForm hidden={true} reviewData={reviewData} userData={userData}/>}
+            <ReviewForm isPOST={false} hidden={true} reviewData={reviewData} userData={userData}/>}
         </div>
     )
 }

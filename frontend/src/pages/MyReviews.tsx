@@ -27,7 +27,7 @@ export default function MyReviews() {
             <div className='reviews--new-review'>
                 <button><Link to={"/new-review"}>Add new</Link></button>
             </div>
-            {(reviewList.length == 0) ? <h1>Loading...</h1> : reviewList.map((elem : any) => {
+            {reviewList.map((elem : any) => {
                 return <ReviewWidget reviewData={elem} key={elem._id}/>
             })}
         </div>
