@@ -2,7 +2,6 @@ import axios from "axios"
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import { initializeApp } from 'firebase/app';
-
 import { stringify } from "querystring";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import "./Account.css"
@@ -13,6 +12,9 @@ export default function Account() {
     const params = useParams()
     const [authMethod, setAuthMethod] = useState("sign-in")
     const [email, setEmail] = useState("")
+
+    const REDIRECT_URI = "http://localhost:5173/account"
+    
     const [password, setPassword] = useState("")
 
 
@@ -34,11 +36,43 @@ export default function Account() {
     
 
     useEffect(() => {
-        getAuthorizationCode()
-        if (params.code) {
+        handleSpotifyCode()
+        
+
+        })
+
+    async function handleSpotifyCode() {
+        let params : any = new URLSearchParams(window.location.search);
+
+        if (params.get("code") === undefined) {
+            return 
+        }
+
+        let codeVerifier = localStorage.getItem("code-verifier")
+        let code = params.get("code")
+
+        let body = stringify({
+            grant_type: "authorization_code",
+            code: code,
+            redirect_uri: REDIRECT_URI,
+            client_id: import.meta.env.VITE_CLIENT_ID,
+            code_verifier: codeVerifier,
+          });
+        
+        try {
+            let result : any = await axios.post('https://accounts.spotify.com/api/token', body, {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            }
+          })
+            localStorage.setItem('access_token', result.access_token);
+        } catch(e) {
+            console.error(e)
             
         }
-    }, [])
+        
+    }
+
 
     const getAuthorizationCode = () => {
         axios.get("http://localhost:8010/get-access-token")
@@ -87,7 +121,7 @@ export default function Account() {
     async function linkSpotify() {
         let codeVerifier = generateRandomString(128);
         let codeChallenge : any = await generateCodeChallenge(codeVerifier);
-        let redirect_uri = "http://localhost:5173/account"
+        
       
         let state = generateRandomString(16);
         let scope = "user-top-read user-read-playback-position";
@@ -100,7 +134,7 @@ export default function Account() {
               response_type: "code",
               client_id: import.meta.env.VITE_CLIENT_ID,
               scope: scope,
-              redirect_uri: redirect_uri,
+              redirect_uri: REDIRECT_URI,
               state: state,
               code_challenge_method: "S256",
               code_challenge: codeChallenge,
@@ -123,23 +157,33 @@ export default function Account() {
         return text;
     }
     
-    async function generateCodeChallenge(codeVerifier : any) {
-        const base64encode = (str : any) => {
-          const buffer = Buffer.from(str, 'binary');
-          return buffer.toString('base64')
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=+$/, '');
-        };
-      
+    function sha256(plain : any) {
+        // returns promise ArrayBuffer
         const encoder = new TextEncoder();
-        const data = encoder.encode(codeVerifier);
-        const digest = await window.crypto.subtle.digest('SHA-256', data);
+        const data = encoder.encode(plain);
+        return window.crypto.subtle.digest("SHA-256", data);
+      }
       
+      function base64urlencode(a : any) {
+        var str = "";
+        var bytes = new Uint8Array(a);
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+          str += String.fromCharCode(bytes[i]);
+        }
+        return btoa(str)
+          .replace(/\+/g, "-")
+          .replace(/\//g, "_")
+          .replace(/=+$/, "");
+      }
       
-        return digest;
-    }
-
+      async function generateCodeChallenge(v : any) {
+        var hashed = await sha256(v);
+        console.log
+        var base64encoded = base64urlencode(hashed);
+        return base64encoded
+      }
+        
     // createUserWithEmailAndPassword(auth, "rameyland21@gmail.com", "password123")
     // .then((userCredential) => {
     //     // Signed in 
@@ -184,6 +228,7 @@ export default function Account() {
                 </button>
                 <button onClick={() => {
                     localStorage.removeItem("userCredential")
+                    localStorage.removeItem("code-verifier")
                     navigate("")
                 }}>Sign Out
                 </button>

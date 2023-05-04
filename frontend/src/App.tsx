@@ -19,11 +19,13 @@ function App() {
           <h1 className="menu--title">Ensemble</h1>
           <ul className='menu--buttons'>
             <Link to={"/"}><li>HOME</li></Link>
-            <Link to={"my-reviews"}><li>MY REVIEWS</li></Link>
+            {(localStorage.getItem("userCredential")) ? <Link to={"my-reviews"}><li>MY REVIEWS</li></Link> : null}
           </ul>
-          <div className="account-icon">
-            <Link to={"account"}><PersonIcon /></Link>
-          </div>
+          <Link to={"account"}> 
+            <div className="account-icon">
+              {(localStorage.getItem("userCredential") ? "Account" : "Sign In")}<PersonIcon />
+            </div>
+          </Link>
         </div>
         <Routes>
           <Route path="/" element={<Home />}/>
