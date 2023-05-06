@@ -24,6 +24,10 @@ const reviewSchema = new mongoose.Schema({
     spotifyHref: {
         type: String,
         required: true
+    },
+    userID: {
+        type: String,
+        required: true
     }
 })
 

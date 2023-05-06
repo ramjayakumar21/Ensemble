@@ -9,12 +9,19 @@ export default function MyReviews() {
   const [reviewList, changeReviewList] = useState<any>([]);
 
   useEffect(() => {
-    getAllReviews();
+    if (localStorage.getItem("userCredential") != null) {
+      let userCredential = localStorage.getItem("userCredential")
+      let userData = null
+      if (userCredential != null) {
+        userData = JSON.parse(userCredential)
+      }
+      getAllReviews(userData.user.uid)
+    }
   }, []);
 
-  const getAllReviews = () => {
+  function getAllReviews(userID : any){
     axios
-      .get(import.meta.env.VITE_BACKEND_URL + "/reviews/all")
+      .get(import.meta.env.VITE_BACKEND_URL + "/reviews/user/" + userID)
       .then((res: any) => {
         console.log(res.data);
         changeReviewList(res.data);
@@ -31,7 +38,6 @@ export default function MyReviews() {
           <Link to={"/new-review"}>Add new</Link>
         </button>
       </div>
-      {/*   */}
       {reviewList.map((elem: any) => {
         return <ReviewWidget reviewData={elem} key={elem._id} />;
       })}

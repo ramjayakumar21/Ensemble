@@ -104,13 +104,20 @@ export default function ReviewForm(props : any) {
 
     async function sendReview() {
         let artists = reviewData.artists.map((artist : any) => {return artist.name})
+        let user : any = {}
+        let userObj : any = localStorage.getItem("userCredential")
+        if (userObj) {
+            user = JSON.parse(userObj)
+        }
+        
 
         let body =  {
             album: reviewData.name,
             artist: artists.join(", "),
             rating: rating,
             content: reviewContent,
-            spotifyHref: reviewData.href
+            spotifyHref: reviewData.href,
+            userID: user.user.uid
         }
 
         let result = null;

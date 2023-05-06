@@ -24,13 +24,14 @@ router.post('/new', async (req, res) => {
         artist: body.artist,
         rating: body.rating,
         content: body.content,
-        spotifyHref: body.spotifyHref
+        spotifyHref: body.spotifyHref,
+        userID: body.userID
     })
 
     console.log("review", review)
 
     try {
-        let array = await Review.find({spotifyHref: body.spotifyHref})
+        let array = await Review.find({spotifyHref: body.spotifyHref, userID: body.userID})
         console.log(array.length)
         if (array.length != 0 ) {
             console.log("already exists")
@@ -77,6 +78,17 @@ router.get('/all', async (req, res) => {
         return res.send(output)
     } catch {
         res.status(500).send("Failed to get all artists!")
+    }
+})
+
+router.get('/user/:userID', async (req, res) => {
+    try {
+        console.log("made request for user reviews", req.params.userID)
+        let output =  await Review.find({userID: req.params.userID})
+        console.log("output:", output)
+        return res.send(output)
+    } catch {
+        res.status(500).send(`Failed to get reviews for user id: ${req.params.userID}`)
     }
 })
 
