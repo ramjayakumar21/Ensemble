@@ -16,7 +16,7 @@ router.post('/new', async (req, res) => {
         
     }
 
-    console.log(body)
+    console.log("body", body)
 
     const review = new Review({
         id: body.id,
@@ -27,16 +27,22 @@ router.post('/new', async (req, res) => {
         spotifyHref: body.spotifyHref
     })
 
+    console.log("review", review)
+
     try {
-        if (Review.find({spotifyHref: body.spotifyHref}).length != 0 ) {
+        let array = await Review.find({spotifyHref: body.spotifyHref})
+        console.log(array.length)
+        if (array.length != 0 ) {
+            console.log("already exists")
             res.status(401).send(`Already have a review for this album!`)
         } else {
             let newReview = await review.save()
+            console.log("made a review")
             res.send(`Made a new review for ${body.album} - ${body.artist}`)
         }
         
     } catch(e) {
-        console.log(e)
+        console.log("error", e)
         res.status(500).send("Failed to make a new review!")
        
 

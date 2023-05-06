@@ -116,11 +116,11 @@ export default function ReviewForm(props : any) {
         let result = null;
 
         if (!props.isPOST) {
-            result = await axios.put("http://localhost:8010/reviews/new", {
+            result = await axios.put(import.meta.env.VITE_BACKEND_URL + "/reviews/new", {
                 data: {...body, id: props.userData.id}
             })
         } else {
-            result = await axios.post("http://localhost:8010/reviews/new", {
+            result = await axios.post(import.meta.env.VITE_BACKEND_URL + "/reviews/new", {
                 data: body
             })
         }

@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom"
+import { Rating } from "@mui/material"
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import "./ReviewWidget.css"
 import { useState } from "react"
+import { MoreHoriz } from "@mui/icons-material";
 
 export default function Review(props: any)  {
     let { id, album, artist, rating, spotifyHref } = props.reviewData
@@ -38,9 +41,20 @@ export default function Review(props: any)  {
     return (
         <div className="review">
             <img style={{width: "30vh"}}src={spotifyData.imageURL} ></img>
-            <h1 className="review--album-title">{`${album} by ${artist}`}</h1>
-            <h2>Has a rating of {rating} out of 10 and id {id}</h2>
-            <Link to={`../review/${id}`}><button>See More</button></Link>
+            <div>
+                <h1 className="review--album-title">{`${album}`}</h1>
+                <h2>{artist}</h2>
+                <Link to={`../review/${id}`}><button>See More</button></Link>
+            </div>
+            <Rating
+                    name="simple-controlled"
+                    value={rating}
+                    sx={{
+                        fontSize: 80
+                      }}
+                    readOnly
+                />
+            {/* <MoreHorizIcon /> */}
         </div>
     )
 }

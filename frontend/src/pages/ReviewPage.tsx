@@ -17,7 +17,7 @@ export default function ReviewPage() {
     }, [])
 
     function getReview() {
-        axios.get(`http://localhost:8010/reviews/${params.id}`)
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}/reviews/${params.id}`)
         .then((res : any) => {
             console.log("data", res.data)
             let users_data = {
