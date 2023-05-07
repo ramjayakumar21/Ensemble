@@ -1,4 +1,4 @@
-cd frontend
-npm run dev > '/dev/null' 2>&1
-cd ../backend
-npm run devStart 
+cd backend 
+nohup npm run devStart &
+cd ../frontend 
+npm run dev 
