@@ -1,5 +1,5 @@
 const express = require("express");
-const querystring = require("node:querystring");
+const querystring = require("querystring");
 const crypto = require("crypto");
 const sha256 = require('sha256');
 const store = require("store");
