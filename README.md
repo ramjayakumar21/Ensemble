@@ -19,12 +19,13 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][contributors-url]
+<!-- [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
+[![MIT License][license-shield]][license-url] -->
 [![LinkedIn][linkedin-shield]][linkedin-url]
+![License][License]
 
 
 
@@ -245,3 +246,4 @@ Project Link: [https://github.com/ramjayakumar21/Ensemble](https://github.com/ra
 [React-Router-logo]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white
 [MongoDB-logo]: https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white
 [Spotify-logo]: https://img.shields.io/badge/Spotify-API-1ED760?&style=for-the-badge&logo=spotify&logoColor=white
+[License]: https://img.shields.io/badge/License-MIT-blue.svg
