@@ -1,0 +1,101 @@
+
+
+> webdevcourse@1.0.0 devStart
+> nodemon server.js
+
+[33m[nodemon] 2.0.20[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+listening now!
+Connected to Mongoose
+
+> webdevcourse@1.0.0 devStart
+> nodemon server.js
+
+[33m[nodemon] 2.0.20[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+listening now!
+Connected to Mongoose
+
+> webdevcourse@1.0.0 devStart
+> nodemon server.js
+
+[33m[nodemon] 2.0.20[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+listening now!
+Connected to Mongoose
+
+> webdevcourse@1.0.0 devStart
+> nodemon server.js
+
+[33m[nodemon] 2.0.20[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
+listening now!
+Connected to Mongoose
+made request for user reviews gWur2wkzHCh0LteRJpnC3WDgMns1
+output: [
+  {
+    _id: new ObjectId("6456be5597d313a58537c730"),
+    id: 5,
+    album: 'DAMN.',
+    artist: 'Kendrick Lamar',
+    rating: 4,
+    content: 'i liked it alot!',
+    spotifyHref: 'https://api.spotify.com/v1/albums/4eLPsYPBmXABThSJ821sqY',
+    userID: 'gWur2wkzHCh0LteRJpnC3WDgMns1',
+    __v: 0
+  }
+]
+made request for user reviews gWur2wkzHCh0LteRJpnC3WDgMns1
+output: [
+  {
+    _id: new ObjectId("6456be5597d313a58537c730"),
+    id: 5,
+    album: 'DAMN.',
+    artist: 'Kendrick Lamar',
+    rating: 4,
+    content: 'i liked it alot!',
+    spotifyHref: 'https://api.spotify.com/v1/albums/4eLPsYPBmXABThSJ821sqY',
+    userID: 'gWur2wkzHCh0LteRJpnC3WDgMns1',
+    __v: 0
+  }
+]
+made request for user reviews gWur2wkzHCh0LteRJpnC3WDgMns1
+output: [
+  {
+    _id: new ObjectId("6456be5597d313a58537c730"),
+    id: 5,
+    album: 'DAMN.',
+    artist: 'Kendrick Lamar',
+    rating: 4,
+    content: 'i liked it alot!',
+    spotifyHref: 'https://api.spotify.com/v1/albums/4eLPsYPBmXABThSJ821sqY',
+    userID: 'gWur2wkzHCh0LteRJpnC3WDgMns1',
+    __v: 0
+  }
+]
+made request for user reviews gWur2wkzHCh0LteRJpnC3WDgMns1
+output: [
+  {
+    _id: new ObjectId("6456be5597d313a58537c730"),
+    id: 5,
+    album: 'DAMN.',
+    artist: 'Kendrick Lamar',
+    rating: 4,
+    content: 'i liked it alot!',
+    spotifyHref: 'https://api.spotify.com/v1/albums/4eLPsYPBmXABThSJ821sqY',
+    userID: 'gWur2wkzHCh0LteRJpnC3WDgMns1',
+    __v: 0
+  }
+]

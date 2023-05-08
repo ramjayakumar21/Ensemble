@@ -41,7 +41,7 @@ export default function Review(props: any)  {
     return (
         <div className="review">
             <img style={{width: "30vh"}}src={spotifyData.imageURL} ></img>
-            <div>
+            <div className="review--content">
                 <h1 className="review--album-title">{`${album}`}</h1>
                 <h2>{artist}</h2>
                 <Link to={`../review/${id}`}><button>See More</button></Link>

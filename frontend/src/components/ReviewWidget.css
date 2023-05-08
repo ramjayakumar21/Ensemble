@@ -2,11 +2,12 @@
     border-radius: 30px;
     padding: 30px;
     margin-top: 10px;
-    max-width: 80%;
+    max-width: 90%;
     border: 2px solid white;
     display: flex;
     gap: 20px;
     align-items: center;
+    overflow: contain;
 }
 
 h1,
@@ -15,9 +16,13 @@ h2 {
 }
 
 .review--album-title {
-    font-size: 5em;
+    font-size: 4em;
     word-wrap: break-word;
     margin-left: 10px;
+}
+
+.review--content {
+    width: 50%;
 }
 
 .review button {
