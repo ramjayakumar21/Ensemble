@@ -44,7 +44,7 @@
     <a href="https://github.com/ramjayakumar21/repo_name"><strong>Explore the docs »</strong></a>
     <br /> -->
     <br />
-    <a href="https://github.com/ramjayakumar21/Ensemble">View Demo</a>
+    <a href="https://ensemble-sbdx.onrender.com/">View Demo</a>
     ·
     <a href="https://github.com/ramjayakumar21/Ensemble/issues">Report Bug</a>
     ·
@@ -85,7 +85,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Ensemble Screen Shot][product-screenshot]](https://example.com)
+[![Ensemble Screen Shot][product-screenshot]](https://ensemble-sbdx.onrender.com/)
 
 As someone who listens to a ton of music, I've always wanted a platform to share my opinions with my friends in an easy way. Thus, I decided to started building this app! It allows users to create reviews for albums, choose their top songs and see listening info based on their Spotify Account. I used Typescript in React, Node, Express, and MongoDB to create this app. Please let me know what you think!
 
