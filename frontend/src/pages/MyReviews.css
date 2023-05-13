@@ -7,3 +7,9 @@
     display: flex;
     
 }
+
+@media only screen and (max-width: 800px) {
+    #root {
+      padding: 0px;
+    }
+}

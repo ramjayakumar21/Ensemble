@@ -1,11 +1,10 @@
 
 .auth-form {
-    margin-left: 25%;
-    margin-top: 5%;
+    margin: 5% auto;
     border-radius: 10px;
-    padding: 30px;
+    padding: 10%;
     display: grid;
-    width: 500px;
+    width: 50%;
     grid-template-rows: 100px 100px;
     grid-column: 50px;
     background-color: azure;
@@ -19,4 +18,10 @@
 
 .auth-form a {
     cursor: pointer;
+}
+
+.account-form button {
+    padding: 5%;
+    margin: 5%;
+    background-color: blueviolet;
 }

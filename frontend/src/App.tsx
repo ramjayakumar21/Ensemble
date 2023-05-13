@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import PersonIcon from "@mui/icons-material/Person";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 import reactLogo from "./assets/react.svg";
 import { Drawer, Button } from "@mui/material";
 import "./App.css";
@@ -12,10 +12,8 @@ import MyReviews from "./pages/MyReviews";
 import ReviewPage from "./pages/ReviewPage";
 import { NewReview } from "./pages/NewReview";
 
-
-
 function requireAuth() {
-  let userCredential = localStorage.getItem("userCredential");
+  let userCredential = isSignedIn();
   if (userCredential == null) {
     console.log("Unauthorized access!");
     return false;
@@ -23,6 +21,9 @@ function requireAuth() {
   return true;
 }
 
+function isSignedIn() {
+  return localStorage.getItem("userCredential") != null;
+}
 function ProtectedRoute({
   user,
   redirectURL,
@@ -50,7 +51,7 @@ function App() {
           <Link to={"/"}>
             <li>HOME</li>
           </Link>
-          {localStorage.getItem("userCredential") ? (
+          {isSignedIn() ? (
             <Link to={"my-reviews"}>
               <li>MY REVIEWS</li>
             </Link>
@@ -58,44 +59,39 @@ function App() {
         </ul>
         <div className="account-icon">
           <Link to={"account"}>
-            <span>
-              {localStorage.getItem("userCredential") ? "Account" : "Sign In"}
-            </span>
+            <span>{isSignedIn() ? "Account" : "Sign In"}</span>
             <PersonIcon />
           </Link>
         </div>
         <div className="side-menu-btn">
-          <Button variant="contained"
-            sx={
-              {
-                backgroundColor: "purple"
-              }
-            }
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "purple",
+            }}
             onClick={() => {
               toggleSideMenu(true);
             }}
           >
-            <MenuIcon fontSize="large"/>
+            <MenuIcon fontSize="large" />
           </Button>
         </div>
-        <Drawer
-          anchor="right"
-          open={sideMenu}
+        <Drawer anchor="right" open={sideMenu}
           onClose={() => {
             toggleSideMenu(false);
           }}
         >
           <ul className="side-menu--buttons">
-            <Link to={"/"}>
+            <Link to={"/"} onClick={() => toggleSideMenu(false)}>
               <li>HOME</li>
             </Link>
-            {localStorage.getItem("userCredential") ? (
-              <Link to={"my-reviews"}>
+            {isSignedIn() ? (
+              <Link to={"my-reviews"} onClick={() => toggleSideMenu(false)}>
                 <li>MY REVIEWS</li>
               </Link>
             ) : null}
-            <Link to={"account"}>
-                <li>ACCOUNT</li>
+            <Link to={"account"} onClick={() => toggleSideMenu(false)}>
+              <li>ACCOUNT</li>
             </Link>
           </ul>
         </Drawer>

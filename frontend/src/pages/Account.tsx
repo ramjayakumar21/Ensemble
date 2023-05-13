@@ -20,13 +20,13 @@ export default function Account() {
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("")
 
-  const REDIRECT_URI = "http://localhost:5173/account";
+  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
   
   /**
    * Firebase Config Settings
    */
   const firebaseConfig = {
-    apiKey: "AIzaSyDVPH4CdvYLJkitJy_QqZhqf5mn758T59Y",
+    apiKey: import.meta.env.VITE_FIREBASE_KEY,
     authDomain: "ensemble-a40ee.firebaseapp.com",
     projectId: "ensemble-a40ee",
     storageBucket: "ensemble-a40ee.appspot.com",
@@ -177,28 +177,14 @@ export default function Account() {
     return base64encode(digest);
   }
 
-  // createUserWithEmailAndPassword(auth, "rameyland21@gmail.com", "password123")
-  // .then((userCredential) => {
-  //     // Signed in
-  //     const user = userCredential.user;
-  //     console.log("user!! ", user)
-  //     // ...
-  // })
-  // .catch((error) => {
-  //     const errorCode = error.code;
-  //     const errorMessage = error.message;
-  //     console.log("error", error)
-  //     // ..
-  //   });
-
   return (
     <div>
       <div
         className="auth-form"
         style={{
-          visibility: localStorage.getItem("userCredential")
-            ? "hidden"
-            : "visible",
+          display: localStorage.getItem("userCredential")
+            ? "none"
+            : "block",
         }}
       >
         <TextField
@@ -254,9 +240,9 @@ export default function Account() {
       <div
         className="account-form"
         style={{
-          visibility: localStorage.getItem("userCredential")
-            ? "visible"
-            : "hidden",
+          display: localStorage.getItem("userCredential")
+            ? "block"
+            : "none",
         }}
       >
         <button onClick={linkSpotify}>{(localStorage.getItem("Authentication")) ? "Spotify has been linked" : "Link Spotify"}</button>

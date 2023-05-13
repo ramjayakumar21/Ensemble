@@ -8,6 +8,7 @@ export default function Home() {
             
             <img className='banner' src='/pexels-vishnu-r-nair-1105666.jpg'></img>
             <h1>Welcome!</h1>
+            <p>Welcome to Ensemble, a place to share your music opinions with friends! Feel free to sign into your account and add reviews!</p>
         </div>
     )
 }
